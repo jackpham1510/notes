@@ -16,9 +16,13 @@ Http versions:
 
 **HTTPS**
 
-HTTPS uses an encryption protocol to encrypt communications. 
+Hypertext Transfer Protocol Secure (HTTPS) is an extension of the Hypertext Transfer Protocol (HTTP).
 
-The protocol is called Transport Layer Security (TLS), although formerly it was known as Secure Sockets Layer (SSL). 
+It is used for secure communication over a computer network, and is widely used on the Internet. 
+
+In HTTPS, the communication protocol is encrypted using Transport Layer Security (TLS) or, formerly, Secure Sockets Layer (SSL). 
+
+The protocol is therefore also referred to as HTTP over TLS, or HTTP over SSL.
 
 This protocol secures communications by using what’s known as an asymmetric public key infrastructure. 
 
@@ -199,34 +203,57 @@ GET Parameters remain in web browser history. | Parameters are not saved in web 
 
 **How it work**
 
-**Cluser / node**
-
-**Analyzer / tokenizer**
-
-**Query / aggregation**
+- ES retrieving and managing document-oriented and semi-structured data.
+- The primary data structure ES uses is an inverted index managed using Apache Lucence's API
+- Interted index is a mapping of each token to the list of documents containing that word, which makes it possible to locate documents with given keywords very quickly.
+- Index information is stored in one or multiple partitions also called shards.
+- ES is able to distribute and allocate shards dynamically to the nodes in a cluster, as well as replicate them.
 
 # Database
 
-**B-tree**
+**Database Index**
 
-Method | Time complexity
--------|----------------
-Search | O(logN)
-Insert | O(logN)
-Delete | O(logN)
+Indexing is the principal technique used to efficiently answering a given query.
 
-Properties:
+An Index for a DB is like an Index in a book:
 
-1. All leaves are at the same level.
-2. A B-Tree is defined by the term minimum degree ‘t’. The value of 't' depends upon disk block size.
-3. Every node except root must contain at least t-1 keys. The root may contain minimum 1 key.
-4. All nodes (including root) may contain at most 2t – 1 keys.
-5. Number of children of a node is equal to the number of keys in it plus 1.
-6. All keys of a node are sorted in increasing order. The child between two keys k1 and k2 contains all keys in the range from k1 and k2.
+1. It is smaller that the book;
+2. The words are in sorted order;
+3. If we are looking for a particular topic we first search on the index, find
+the pages where it is discussed, go to the actual pages in the book
 
-![B-tree](./images/btree.png)
+Indexing is a way of sorting a number of records on multiple fields. Creating an index on a field in a table creates another data structure which holds the field value, and a pointer to the record it relates to. This index structure is then sorted, allowing Binary Searches to be performed on it.
 
-**Spatial/dense index b-tree and hash**
+- [https://stackoverflow.com/a/1130](https://stackoverflow.com/a/1130)
+- [https://www.inf.unibz.it/~artale/DB2/handout2.pdf](https://www.inf.unibz.it/~artale/DB2/handout2.pdf)
+
+**Dense Index:**
+
+- There is an index record for every search value in Data File 
+- An index record appears for every search key value in data file.
+- This record contains search key value and a pointer to the actual record.
+
+**Sparse Index:**
+
+- There is an index record for every few search value in Data File
+- Index records are created only for some of the records.
+- To locate a record, we find the index record with the largest search key value less than or equal to the search key value we are looking for.
+- We start at that record pointed to by the index record, and proceed along the pointers in the file (that is, sequentially) until we find the desired record.
+
+Also, **dense indices** are *faster* in general, but **sparse indices** require *less space* and impose *less maintenance* for insertions and deletions
+
+- [https://stackoverflow.com/a/54039534](https://stackoverflow.com/a/54039534)
+
+**Primary index:**
+- A primary index is an index on a set of fields that includes the unique primary key for the field and is guaranteed not to contain duplicates.
+- Also Called a **Clustered index** 
+- eg: EmployeeID
+
+**Secondary index:**
+- A Secondary index is an index that is not a primary index and may have duplicates.
+- Secondary indexes do not determine the placement of records in the data file.
+- Always **Dense** 
+- eg: EmployeeName
 
 **Transaction**
 
@@ -260,12 +287,14 @@ Isolation levels:
 
 **Normalization / Denormalization**
 
-- **Normalization:** is the process of removing redundant data from the database by splitting the table in a well-defined manner in order to maintain data integrity. This process saves much of the storage space.
+- **Normalization:** is used to remove redundant data from the database and to store non-redundant and consistent data into it. This process saves much of the storage space.
   - **First Normal Form (1NF):** A relation is said to be in 1NF only when all the entities of the table contain unique or atomic values.
   - **Second Normal Form (2NF):** A relation is said to be in 2NF only if it is in 1NF and all the non-key attribute of the table is fully dependent on the primary key.
   - **Third Normal Form (3NF):** A relation is said to be in 3NF only if it is in 2NF and every non-key attribute of the table is not transitively dependent on the primary key.
 
-- **De-normalization:** is the process of adding up redundant data on the table in order to speed up the complex queries and thus achieve better performance.
+- **De-normalization:** is used to combine multiple table data into one so that it can be queried quickly.
+
+- [https://www.tutorialspoint.com/difference-between-normalization-and-denormalization](https://www.tutorialspoint.com/difference-between-normalization-and-denormalization)
 
 **Why procedure execute faster than plain SQL**
 
@@ -283,35 +312,91 @@ Isolation levels:
 
 # System
 
-**Difference between processes and threads**
+[https://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread](https://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread)
+
+**Difference between thread and process**
+
+Both processes and threads are independent sequences of execution. The typical difference is that threads (of the same process) run in a shared memory space, while processes run in separate memory spaces.
+
+1. A process has a self-contained execution environment. A process generally has a complete, private set of basic run-time resources; in particular, each process has its own memory space.
+
+2. Threads exist within a process — every process has at least one. Threads share the process's resources, including memory and open files. This makes for efficient, but potentially problematic, communication.
 
 **Processes**
 
+- An executing instance of a program is called a process.
+- Some operating systems use the term ‘task‘ to refer to a program that is being executed.
+- A process is always stored in the main memory also termed as the primary memory or random access memory.
+- Therefore, a process is termed as an active entity. It disappears if the machine is rebooted.
+- Several process may be associated with a same program.
+- On a multiprocessor system, multiple processes can be executed in parallel.
+- On a uni-processor system, though true parallelism is not achieved, a process scheduling algorithm is applied and the processor is scheduled to execute each process one at a time yielding an illusion of concurrency.
+- **Example:** Executing multiple instances of the ‘Calculator’ program. Each of the instances are termed as a process.
+
 **Threads**
 
-**Locks**
+- A thread is a subset of the process.
+- It is termed as a ‘lightweight process’, since it is similar to a real process but executes within the context of a process and shares the same resources allotted to the process by the kernel.
+- Usually, a process has only one thread of control – one set of machine instructions executing at a time.
+- A process may also be made up of multiple threads of execution that execute instructions concurrently.
+- Multiple threads of control can exploit the true parallelism possible on multiprocessor systems.
+- On a uni-processor system, a thread scheduling algorithm is applied and the processor is scheduled to run each thread one at a time.
+- All the threads running within a process share the same address space, file descriptors, stack and other process related attributes.
+- Since the threads of a process share the same memory, synchronizing the access to the shared data within the process gains unprecedented importance.
 
-**mutexes**
+**Semaphore**
 
-**semaphores**
+Is simply a variable that is non-negative and shared between threads.
 
-**monitors**
+A semaphore is a signaling mechanism, and a thread that is waiting on a semaphore can be signaled by another thread
 
-**deadlock**
+It uses two atomic operations, 1)wait, and 2) signal for the process synchronization.
 
-**livelock**
+**Mutex (Mutual Exclusion Object)**
 
-**scheduling**
+It is a special type of binary semaphore which used for controlling access to the shared resource
+
+**Mutex vs Semaphore**
+
+Parameter | Semaphore | Mutex
+----------|-----------|-------
+Mechanism | It is a type of signaling mechanism. | 	It is a locking mechanism.
+Data Type | Semaphore is an integer variable. | Mutex is just an object.
+Modification | The wait and signal operations can modify a semaphore. | 	It is modified only by the process that may request or release a resource.
+Resource mangement | If no resource is free, then the process requires a resource that should execute wait operation. It should wait until the count of the semaphore is greater than 0. | If no resource is free, then the process requires a resource that should execute wait operation. It should wait until the count of the semaphore is greater than 0.
+Thread | You can have multiple program threads. | You can have multiple program threads in mutex but not simultaneously.
+Ownership | Value can be changed by any process releasing or obtaining the resource. | Object lock is released only by the process, which has obtained the lock on it.
+Types | Types of Semaphore are counting semaphore and binary semaphore. | Mutex has no subtypes.
+Operation | Semaphore value is modified using wait () and signal () operation. | Mutex object is locked or unlocked.
+Resources Occupancy | It is occupied if all resources are being used and the process requesting for resource performs wait () operation and blocks itself until semaphore count becomes >1. | In case if the object is already locked, the process requesting resources waits and is queued by the system before lock is released.
+
+[https://www.guru99.com/mutex-vs-semaphore.html](https://www.guru99.com/mutex-vs-semaphore.html)
+
+**Deadlock**
+
+**Livelock**
+
+**Scheduling**
 
 # Testing
 
-**How unit testing works**
+**Unit Testing Vs Integration Testing Vs Functional Testing**
+
+**Unit testing** means testing individual modules of an application in isolation (without any interaction with dependencies) to confirm that the code is doing things right.
+
+**Integration testing** means checking if different modules are working fine when combined together as a group.
+
+**Functional testing** means testing a slice of functionality in the system (may interact with dependencies) to confirm that the code is doing the right things
+
+![Unit test vs Integration test vs Functional test](./images/unit-test_itegration-test_functional-test.png)
 
 **What are mock objects**
 
-**What is integration testing**
+Mock objects are simulated objects that mimic the behavior of the real ones. Typically you write a mock object if:
 
-**What is dependency injection**
+- The real object is too complex to incorporate it in a unit testing (For example a networking communication, you can have a mock object that simulate been the other peer)
+- The result of your object is non deterministic
+- The real object is not yet available
 
 # DSA
 
@@ -323,42 +408,158 @@ Isolation levels:
 
 **Queue**
 
-- Priority Queue
-- Min/Max heap
+- First In First Out
+
+Priority Queue (Heap)
+
+- Priority by order and by priority value
 
 **Stack**
 
+- Last In First Out
+
 **Tree**
 
-- Binary tree
-- Binary search tree
-- AVL tree
-- Red-black tree
-- B/B+ tree
+- A tree is a widely used abstract data type (ADT) that simulates a hierarchical tree structure, with a root value and subtrees of children with a parent node, represented as a set of linked nodes.
+  
+**Binary tree**
+
+- A binary tree is a tree data structure in which each node has at most two children, which are referred to as the left child and the right child
+
+**Binary search tree**
+
+- A binary search tree is a node-based binary tree data structure which has the following properties:
+  - The left subtree of a node contains only nodes with keys lesser than the node’s key.
+  - The right subtree of a node contains only nodes with keys greater than the node’s key.
+  - The left and right subtree each must also be a binary search tree.
+
+**AVL tree**
+
+- AVL tree is a self-balancing Binary Search Tree (BST) where the difference between heights of left and right subtrees cannot be more than one for all nodes.
+
+**Red-black tree**
+
+Method | Average | Worst case
+-------|---------|-----------
+Space  | O(N)    | O(N)
+Search | O(logN) | O(logN)
+Insert | O(logN) | O(logN)
+Delete | O(logN) | O(logN)
+
+- Red-Black Tree is a self-balancing Binary Search Tree (BST) where every node follows following rules:
+  - Every node has a color either red or black.
+  - Root of tree is always black.
+  - There are no two adjacent red nodes (A red node cannot have a red parent or red child).
+  - Every path from a node (including root) to any of its descendant NULL node has the same number of black nodes.
+
+![Red black tree](./images/red-black-tree.png)
+
+**B/B+ tree**
+
+Method | Average | Worst case
+-------|---------|-----------
+Space  | O(N)    | O(N)
+Search | O(logN) | O(logN)
+Insert | O(logN) | O(logN)
+Delete | O(logN) | O(logN)
+
+Properties:
+
+- B+tree can have more than 1 keys in a node, in fact thousands of keys is seen typically stored in a node and hence, the branching factor of a B+tree is very large and that allows the B+trees to be a lot shallower as compared to their binary search tree counterparts.
+- B+trees have all the key values in their leaf nodes. All the leaf nodes of a B+tree are at the same height, which implies that every index lookup will take same number of B+tree lookups to find a value.
+- Within a B+tree all leaf nodes are linked together in a linked-listed, left to right, and since the values at the leaf nodes are sorted, so range lookups are very efficient.
+
+- [http://www.ovaistariq.net/733/understanding-btree-indexes-and-how-they-impact-performance](http://www.ovaistariq.net/733/understanding-btree-indexes-and-how-they-impact-performance)
+
+![B-tree](./images/btree.png)
 
 **Trie**
 
+- Prefix tree
+
 **Graph**
 
-**Hash table**
+A Graph consists of a finite set of vertices(or nodes) and set of Edges which connect a pair of nodes.
+
+Use cases:
+- Represent networks
+- Social networks
 
 ## Algorithms
 
 ### Sorting
 
+![Sorting complexity](./images/sorting_complexity.png)
+
+
 - Selection sort
+
 - Insertion sort
+
+- Shell sort
+
 - Bubble sort
+
 - Quick sort
+  - Divide and conquer
+
+```java
+public class QuickSort {
+  
+    public static void swap(int arr[], int a, int b) {
+    int t = arr[a];
+    arr[a] = arr[b];
+    arr[b] = t;
+  }
+
+  public static int partition(int arr[], int left, int right) {
+    int low = left;
+    for (int i = low; i < right; i++) {
+      if (arr[i] < arr[right]) {
+        swap(arr, low, i);
+        low++;
+      }
+    }
+    swap(arr, low, right);
+    return low;
+  }
+
+  public static void quickSort(int arr[], int left, int right) {
+    if (left >= right)
+      return;
+    
+    int pivot = partition(arr, left, right);
+    quickSort(arr, left, pivot - 1);
+    quickSort(arr, pivot + 1, right);
+  }
+
+  public static void quickSort(int arr[]) {
+    quickSort(arr, 0, arr.length - 1);
+  }
+}
+```
+
+- Dual pivot quicksort (Java)
+  - Divide and conquer
+
 - Merge sort
+  - Divide and conquer
+
 - Heap sort
+  - Using heap data structure
+
+- Counting sort
+
 - Radix sort
-- Bucket sort
+
+![Radix sort](./images/radix_sort.png)
 
 ### Searching
 
-- Linear search
-- Binary search
+Algorithm | Array type | Time complexity
+----------|------------|----------------
+Linear search | Any order array | O(N)
+Binary search | Sorted array | O(logN)
 
 ### Compressing
 
@@ -367,55 +568,180 @@ Isolation levels:
 
 # Design pattern
 
+## Creational Patterns
+
 **Singleton**
 
-**Dependcy injection**
+- This pattern ensure that a class has only one instance, while providing a global access point to this instance
+- Control access to some shared resource, ex: database or file
+- provide global access point so we can access that object anywhere in the program
 
-**Inversion of control**
+**Factory method**
 
-**Strategy**
+- Create object without exposing the creation logic to hte client and refer to newly created object using a common interface
 
-**Adapter**
+**Abstract Factory**
 
-**Prototype**
-
-**Decorator**
-
-**Visitor**
-
-**Factory, abstract factory**
+- Factory of factory, it's work same as Factory pattern but it returns a factory instead of object
 
 **Builder**
 
-**Facade**
+- Build complex objects step by step
 
-**Observer**
+**Prototype**
 
-**Proxy**
+- This pattern help we duplicate objects without making our code dependent on their classes
 
-**Delegate**
+## Structural Patterns
 
-**Command**
+**Adapter**
 
-**State**
+- Allows objects with imcompatible interfaces to collaborate
 
-**Memento**
+**Bridge**
 
-**Iterator**
+- Split a large class into two separate implementation which can be developed independently of each other
 
 **Composite**
 
+- Compose objects in term of a tree structure and then owrk with these structures as if they were individual objects
+
+**Decorator**
+
+- Add new functionality to existing object without altering its structure.
+- It wraps the original class and provides additional functionality keeping class methods signature intact
+
+**Facade**
+
+- Provideds a simplified interface of a complex system, library, framework... 
+
 **Flyweight**
+
+- Reduce the number of objects created, decrease RAM used and increase performance.
+- This pattern tries to reuse already existing similar kind of objects by caching them and creates new object when no matching object is found.
+
+**Proxy**
+
+- A class represents functionality of another class.
+- A Proxy controls access to the original object, allowing you to perform something either before or after the request gets through to the original object.
+
+**Dependcy injection**
+
+- When use inject logic to a class which apply IOC pattern through parameter in a constructor or through a setter method
+
+**Inversion of control**
+
+- Move internal logic, dependency to the outside as a paramteter which make the class or function more flexible and reuseable
+
+## Behavioral Patterns
+
+**Chain of responsibility**
+
+- Help we pass requests along achain of handlers. Upon receiving a request, each handler decides either to process the request or to pass it to the next handler in the chain
+
+**Command**
+
+- Request is wrapped under an object as command and passed to invoker object
+
+**Iterator**
+
+- Lets we traverse elements of a collection without exposing its underlying representation (list, stack, tre, etc).
+
+**Strategy**
+
+- A class behavior or its algorithm can be changed at run time.
+
+**Visitor**
+
+- Lets we seperate algorithms from the objects on which they operate
+
+**Observer**
+
+- A subscription mechanism to notify multiple objects about any events that happen to the object they're observing
 
 # Java
 
-**JDK / JVM / JRE**
+**JDK (Java Development Kit)**
+
+Java Development Kit is a software development evironment which used to develop Java applications. It contains JRE and development tools
+
+JDK contains a private JVM and a few resources such as:
+  - a interpreter/loader (java)
+  - compiler (javac)
+  - an archiver (jar)
+  - a document generator (javadoc)
+
+**JRE (Java Runtime Environment)**
+
+Provides the runtime environment which is used to develop Java application.
+
+It is the implementation of JVM.
+
+It contains a set of libraries and other files which JVM uses at runtime.
+
+**JVM (Java Virtual Machine)**
+
+JVM is an abtract machine. It's called a virtual because it's not physical exists.
+
+It provide a runtime environment which Java bytecode can be executed
+
+JVM, JRE, JDK are platform dependent because the configuration of each OS is different from each other. However, Java is platform independent.
+
+There are three notions of the JVM: *specification*, *implementation*, and *instance*.
+
+The JVM performs the following main tasks:
+
+- Loads code
+- Verifies code
+- Executes code 
+- Provides runtime environment
 
 **Garbage collection**
 
+What is Garbage collection?
+
+- Java garbage collection is the process by which Java programs perform automatic memory management.
+- Java garbage collection find unsed objects and deletes them to free up memory.
+- Java gargabe collection implementation lives in the JVM
+
+How does it works?
+
+- In the first step, unreferenced objects are identified and marked as ready for garbage collection.
+- In the second step, marked objects are deleted
+- Optionally, memory can be compacted after the garbage collector deletes objects, so remaining objects are in a contigous block at the start of heap. The compaction process makes it easier to allocate memory to new objects sequentially after the block of memory allocated to existing objects.
+
+The heap is divided into three generations:
+
+- Young generation:
+  - Newly created objects
+  - Divided into
+    - Eden space
+    - Survivor space: objects are moved from Eden space after surviving one garbage collection cycle
+  - When objects are garbage collected from Young generation is a minor garbage collection event.
+- Old generation:
+  - Long-lived objects eventually moved from Young generation
+  - When objects are garbage collected from Old generation, it is a major garbage collection event.
+- Permanent generation:
+  - Metadata such as: classes, methods
+  - Classes are no longer in use may be garbage collected from the permanent generation
+
 **Equals vs ==**
 
+Equals | ==
+-------|------
+Method | Operation
+Content comparison | Address comparison
+
+If class does not override the equals method, then by default it uses equals(Object o) method of the closest parent class that has override this method.
+
 **Heap and Stack memory in Java**
+
+![Heap alloc stack alloc](./images/stack-alloc-heap-alloc.png)
+
+**Request Dispatcher**
+
+- Defines an object that receives requests from the client and sends them to any resource (such as a servlet, HTML file, or JSP file) on the server. 
+- The servlet container creates the RequestDispatcher object, which is used as a wrapper around a server resource located at a particular path or given by a particular name.
 
 ## Servlet
 
@@ -425,31 +751,22 @@ Isolation levels:
 
 # Linux
 
-## Commands / Tools
-
-# Front-end
-
-## React
-
-**Life cycle hook**
-
-**Virtual DOM**
-
-**Compare to other view framework**
-
-**Compare to serverside rendering**
-
-## Javascript
-
-**Async / await / promise**
-
-**Event loop**
-
-**Scope**
+Commands / Tools
 
 # Microservices
 
 **Docker**
+
+How does Docker work?
+
+- Docker uses client - server architecture
+- Docker Client and Server communicate using Rest API
+- Docker client is a service which run a command we typing. it's process the command and send it to the Docker Daemon using Rest API
+- Then, Docker Deamon check the client request and interact with the operating system in order to create and manage containers
+
+Components of Docker
+
+![components of docker](./images/components-of-docker.png)
 
 **Thrift**
 
@@ -467,16 +784,73 @@ Isolation levels:
 
 # Others
 
-**Caching**
-
 **Nginx**
 
-**Request dispatcher**
+Nginx is a Web server that also acts as an email proxy, reverse proxy, and load balancer.
+
+Asynchronous and event-driven, which enables the processing of many requests at the same time.
+
+# Git
+
+**What is git?**
+
+Git is a distributed version control system and source code management system (SCM) with an emphasis to handle small and large project with speed and efficient
+
+**What is git repository**
+
+A repository contains a directory named .git, where git keeps all of its metadata for the repository. The content of .git directory are private to git.
+
+![git](./images/git.png)
+
+**Git stash**
+
+```bash
+git stash # push changes to stash
+git stash save "change some thing" # push changes to stash with message
+git stash pop # apply the last stored changes and remove it from stash
+git stash apply # apply the last stored changes but keep it in stash
+git stash list # list stored changes in stash
+```
+
+**Inspect a repository**
+
+```bash
+git status
+```
+
+- Displays the state working directory and the staging area
+- List which files are staged, unstaged, and untracked.
+
+```bash
+git log
+```
+
+- Displays commited snapshots.
+- List the project history, filter, and search for specific changes.
+
+
+```bash
+git checkout <commit|branch>
+```
+
+- Switch branch
+- See state of the commit given
+
+```bash
+git commit -amend
+```
+
+- Change last commit message
+
+```bash
+git rm
+```
+
+- Untracking files
 
 # Principle
 
 **OOP (Object Oriented Programming)**
-
 
 Encapsulation
   - is a process of wrapping code and data together into a single unit.

@@ -1,14 +1,22 @@
+# Introduce
+
+Hi, my name is Dung.
+
+I'm twenty two years old.
+
+I'm a software engineer with over 2 years of experience specializing in web development both back-end and front-end. Currently, I'm working at Zalo Group
+
 # ELCA
 
 I participated in this internship in the second summer of college, which lasted 3 months.
 
-During this internship, I learned about fundamental knowledges, Java, Spring Framework, Angular, and had to do an exercise to create a tool to manage the progress of projects with the knowledge I learned and then gave presentations to the trainer.
+During this internship, I learned about fundamental knowledges, Java, Spring Framework, Angular, and had to do an exercise to create a tool to manage the progress of projects with the knowledge I learned and then gave presentations to my coach.
 
-I was the youngest in that internship
+I was the youngest in that internship.
 
 # ZaloPay
 
-This is a fresher program organized by VNG company
+This is a fresher program organized by VNG Corporation
 
 I work 3 months part-time and 6 months almost full-time
 
@@ -26,7 +34,7 @@ The document page was developed based on a static site generator called Slate
 
 # Zalo
 
-I worked in Zalo for a year
+I worked in Zalo over a year
 
 Overall, I work on two main projects.
 
@@ -46,7 +54,7 @@ The second is the project called ZOAdmin. In this project I work in 3 modules in
 - When the user accesses a module, they will be redirected to the SSO server to log in. This time the SSO server will proceed with the login flow using the Zalo Login API. After successfully logging in through the Zalo Login API, the SSO server will create a session and redirect the callback url that the module previously registered with 2 JWT tokens, the first is an accesstoken containing the user's id and is used to query information of the user, the second is a refreshtoken used to create new accesstoken
 - Technical Stack: Java, JWT
 
-## Permission management
+## User Permission management
 
 This project consists of three parts:
 - a data storage server written in Java and using in-house Zalo's NoSQL and Elasticsearch to store data
@@ -56,7 +64,7 @@ This project consists of three parts:
 Others:
 - I work on both front-end and back-end
 - Before this tool, all rights management operations such as adding, editing, and deleting were done manually, because of that, it was difficult to manage how many rights a user had.
-- In this project I receive and store information about SSH access from agents installed on the server. This information is stored in Zalo's NoSQL and ElasticSearch in-house.
+- In this project I receive and store information about SSH access from agents installed on the server. This information is stored in in-house Zalo's NoSQL and ElasticSearch.
 
 - Technical Stack: Java, React, Thrift, Message Queue (in-house)
 
