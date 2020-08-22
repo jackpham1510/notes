@@ -410,7 +410,7 @@ Mock objects are simulated objects that mimic the behavior of the real ones. Typ
 
 - First In First Out
 
-Priority Queue (Heap)
+**Priority Queue (Heap)**
 
 - Priority by order and by priority value
 
