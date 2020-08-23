@@ -2,7 +2,7 @@
 
 ## ZAHub
 
-**Describe:** This a an Humae resources management system.
+**Describe:** This is an Human resources management system.
 
 **Situation:** The current human resources management system is very old and does not meet the needs of the human resources department
 

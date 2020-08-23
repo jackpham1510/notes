@@ -642,7 +642,7 @@ Binary search | Sorted array | O(logN)
 
 **Dependcy injection**
 
-- When use inject logic to a class which apply IOC pattern through parameter in a constructor or through a setter method
+- When you inject logic to a class which apply IOC pattern through parameter in a constructor or through a setter method
 
 **Inversion of control**
 
@@ -731,7 +731,7 @@ The heap is divided into three generations:
   - Newly created objects
   - Divided into
     - Eden space
-    - Survivor space: objects are moved from Eden space after surviving one garbage collection cycle
+    - Survivor space: objects are moved to Eden space after surviving one garbage collection cycle
   - When objects are garbage collected from Young generation is a minor garbage collection event.
 - Old generation:
   - Long-lived objects eventually moved from Young generation
