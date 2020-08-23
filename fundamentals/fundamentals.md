@@ -6,13 +6,28 @@ Hyper text transfer protocol. At it’s most basic, it allows for the communicat
 
 Http versions:
 
-- HTTP
-  - Seperate connection
+- HTTP 0.9
+  - Terminated immediately after the response
+  - No Headers, No status code
+  - Hypertext only
+  - Methods support: `GET`
+- HTTP 1.0
+  - Support headers
+  - Terminated immediately after the response
+  - Methods support: `GET`, `POST` and `HEAD`
 - HTTP 1.1
-  - Persistent connections, Request queuing
-  - Pipelining, Response queuing, head-of-line blocking
+  - Persistent and pipelined connections
+  - Chunked transfers
+  - Compression / Decompression
+  - Content negotiations
+  - Virtual hosting
+  - Methods support: `GET`, `POST`, `HEAD`, `PUT`, `DELETE`, `OPTIONS`
+  - `Keep-Alive` header
+  - `Upgrade` header
 - HTTP 2.0
   - Multiplexing over single connection
+
+![3 way handshake](./images/3-way-handshake.png)
 
 **HTTPS**
 
@@ -578,7 +593,7 @@ Binary search | Sorted array | O(logN)
 
 **Factory method**
 
-- Create object without exposing the creation logic to hte client and refer to newly created object using a common interface
+- Create object without exposing the creation logic to the client and refer to newly created object using a common interface
 
 **Abstract Factory**
 
@@ -604,7 +619,7 @@ Binary search | Sorted array | O(logN)
 
 **Composite**
 
-- Compose objects in term of a tree structure and then owrk with these structures as if they were individual objects
+- Compose objects in term of a tree structure and then work with these structures as if they were individual objects
 
 **Decorator**
 
